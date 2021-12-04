@@ -21,6 +21,20 @@ module.exports = [
             await reporting.onOff(endpoint);
         },
     },
+       {
+        fingerprint: [{modelID: 'TS110F', manufacturerName: '_TZ3210_lfbz816s'}],
+        model: 'TS110F',
+        vendor: 'Fantem',
+        description: 'Smart dimmer module without neutral',
+        extend: extend.light_onoff_brightness({noConfigure: true}),
+        exposes: [e.light_brightness()],
+        configure: async (device, coordinatorEndpoint, logger) => {
+            await extend.light_onoff_brightness().configure(device, coordinatorEndpoint, logger);
+            const endpoint = device.getEndpoint(1);
+            await reporting.bind(endpoint, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
+            await reporting.onOff(endpoint);
+        },
+    },
     {
         fingerprint: [{modelID: 'TS0202', manufacturerName: '_TZ3210_rxqls8v0'}, {modelID: 'TS0202', manufacturerName: '_TZ3210_zmy9hjay'}],
         model: 'ZB003-X',
